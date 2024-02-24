@@ -8,8 +8,7 @@ import subprocess
 import shutil
 import os
 
-def rgbToHex(rgb):
-    return '#%02x%02x%02x' % rgb
+
 iindex=0
 list1=[]
 list2=[]
@@ -21,34 +20,37 @@ class BareboneBuilder:
         self.root = root
         self.root.title("card file")
 
-        # Janela amarela
-        self.root.configure(bg='red')
-        self.text_ = tk.Text(self.root, height=1, width=50)
+        self.menubar = tk.Menu(self.root,bg='red')
+        self.mainmenu = tk.Menu(self.menubar, tearoff=0,bg='red')
+        
+        self.text_ = tk.Text(self.root, height=1, width=50,bg='red')
         self.text_.pack(pady=5)
-        self.ls=Listbox(self.root, height=10, width=50)
+        self.ls=Listbox(self.root, height=10, width=50,bg='red')
         self.ls.pack(pady=5)
         list3=self.ls
         # Área de texto
-        self.text_area = tk.Text(self.root, height=10, width=50)
+        self.text_area = tk.Text(self.root, height=25, width=80,bg='red')
         self.text_area.pack(pady=5)
         
 
         
 
         # Botões
-        self.build_button = tk.Button(self.root, text="new file", command=self.build_kernel)
-        self.build_button.pack(pady=5)
+        self.build_button = self.mainmenu.add_command( label="new file", command=self.build_kernel)
+        
 
-        self.run_button = tk.Button(self.root, text="load file", command=self.run_kernel)
-        self.run_button.pack(pady=5)
+        self.run_button = self.mainmenu.add_command(label="load file", command=self.run_kernel)
+        
 
-        self.copy_button = tk.Button(self.root, text="save file", command=self.copy_file)
-        self.copy_button.pack(pady=5)
+        self.copy_button = self.mainmenu.add_command(label="save file", command=self.copy_file)
+        
 
-        self.copy_button = tk.Button(self.root, text="new card", command=self.news)
-        self.copy_button.pack(pady=5)
-        self.copy_button = tk.Button(self.root, text="select card", command=self.selects)
-        self.copy_button.pack(pady=5)
+        self.copy_button = self.mainmenu.add_command(label="new card", command=self.news)
+        
+        self.copy_button = self.mainmenu.add_command(label="select card", command=self.selects)
+        self.b5=self.menubar.add_cascade(label="main", menu=self.mainmenu)
+        self.b4=self.root.configure(menu=self.menubar,bg='red')
+        
     def news(self):
         global list1
         global list2
